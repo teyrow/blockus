@@ -261,7 +261,7 @@ Q.load("sprites.png, sprites.json, level.json, tiles.png, level1.json, level4.js
   Q.compileSheets("tiles.png","tiles.json");
 
   // Finally, call stageScene to run the game
-  Q.stageScene("level4");
+  Q.stageScene("level1");
 });
 
 // ## Possible Experimentations:
