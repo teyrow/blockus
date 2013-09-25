@@ -189,7 +189,7 @@ Q.scene("level3",function(stage) {
   stage.insert(new Q.Enemy({ x: 200, y: 50 , vx: -150}));
 
   // Finally add in the tower goal
-  stage.insert(new Q.Tower({ x: 180, y: 365 }));
+  stage.insert(new Q.Tower({ x: 180, y: 365 }, "level4"));
 });
 
 Q.scene("level4",function(stage) {
@@ -216,7 +216,7 @@ Q.scene("level4",function(stage) {
   stage.insert(new Q.Enemy({ x: 200, y: 50 , vx: -50}));
 */
   // Finally add in the tower goal
-  stage.insert(new Q.Tower({ x: 1130, y: 337 }));
+  stage.insert(new Q.Tower({ x: 1130, y: 337 }, "level4")); //TODO level5 when exists.
   for (var i = 0; i < 4; i++) {
     stage.insert(new Q.Crack({ x: 16+32*(11 + i), y: 32*6+16}));
   };
