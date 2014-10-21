@@ -82,6 +82,14 @@ Q.Sprite.extend("Crack", {
     this._super(p, { sheet: 'crack' });
   }
 });
+Q.Sprite.extend("Brick", {
+  init: function(p) {
+    this._super(p, { sheet: 'brick' });
+    this.add('2d, aiBounce');
+    this.p.gravity = 0;
+  },
+
+});
 
 // ## Enemy Sprite
 // Create the Enemy class to add in some baddies
@@ -97,7 +105,8 @@ Q.Sprite.extend("Enemy",{
     // end the game unless the enemy is hit on top
     this.on("bump.left,bump.right,bump.bottom",function(collision) {
       if(collision.obj.isA("Player")) {
-        Q.stageScene("endLevel",1, { label: "level1", btnText: "Börja om" });
+        var level = this.stage.options.level;
+        Q.stageScene("endLevel",level, { label: "level" + level, btnText: "Försök igen" });        
         collision.obj.destroy();
       }
     });
@@ -143,7 +152,7 @@ Q.scene("level1",function(stage) {
 
   // Finally add in the tower goal
   stage.insert(new Q.Tower({ x: 1130, y: 337}, "level2"));
-});
+}, {level: 1});
 // ## Level1 scene
 // Create a new scene called level 1
 Q.scene("level2",function(stage) {
@@ -167,7 +176,7 @@ Q.scene("level2",function(stage) {
   stage.insert(new Q.Enemy({ x: 800, y: 50 , vx: 150, bounce: false}));
   // Finally add in the tower goal
   stage.insert(new Q.Tower({ x: 180, y: 365}, "level3"));
-});
+}, {level: 2});
 
 Q.scene("level3",function(stage) {
 
@@ -177,7 +186,7 @@ Q.scene("level3",function(stage) {
                              sheet:     'tiles' }));
 
   // Create the player and add them to the stage
-  var player = stage.insert(new Q.Player());
+  var player = stage.insert(new Q.Player({x: 400, y: 400}))
 
   // Give the stage a moveable viewport and tell it
   // to follow the player.
@@ -190,7 +199,7 @@ Q.scene("level3",function(stage) {
 
   // Finally add in the tower goal
   stage.insert(new Q.Tower({ x: 180, y: 365 }, "level4"));
-});
+}, {level: 3});
 
 Q.scene("level4",function(stage) {
 
@@ -216,7 +225,7 @@ Q.scene("level4",function(stage) {
   stage.insert(new Q.Enemy({ x: 200, y: 50 , vx: -50}));
 */
   // Finally add in the tower goal
-  stage.insert(new Q.Tower({ x: 1130, y: 337 }, "level4")); //TODO level5 when exists.
+  stage.insert(new Q.Tower({ x: 1130, y: 337 }, "level5")); 
   for (var i = 3; i < 36; i++) {
     //stage.insert(new Q.Crack({ x: 16+32*(11 + i), y: 32*6+16}));
     if(i%3 !=0) {
@@ -227,7 +236,45 @@ Q.scene("level4",function(stage) {
   var enemy  = new Q.Enemy({x: 800, y:300, vx: 100});
   enemy.bounce = false;
   stage.insert(enemy);
-});
+}, {level: 4});
+
+Q.scene("level5",function(stage) {
+
+  // Add in a tile layer, and make it the collision layer
+  stage.collisionLayer(new Q.TileLayer({
+                             dataAsset: 'level5.json',
+                             sheet:     'tiles' }));
+
+  // Create the player and add them to the stage
+  var player = stage.insert(new Q.Player());
+  window.p = player;
+  player.p.x = 50;
+  player.p.gravity = 0.725;
+  //player.p.x = 
+  // Give the stage a moveable viewport and tell it
+  // to follow the player.
+  stage.add("viewport").follow(player);
+  for (var r = 0; r < 3; r++) {
+    for (var i = 0; i < 3; i++) {
+      stage.insert(new Q.Brick({
+       x: (7+i+2*r)*32+16, 
+       y: 32*(7+r) +18, 
+       vx: 100,
+       ax: 0,
+       ay: 0,  
+       vy: 0
+     }));    
+    };
+  };
+  // Add in a couple of enemies
+  /*stage.insert(new Q.Enemy({ x: 700, y: 50, vx: 150 }));
+  stage.insert(new Q.Enemy({ x: 800, y: 50 , vx: 150}));
+  stage.insert(new Q.Enemy({ x: 200, y: 50 , vx: -150}));
+  stage.insert(new Q.Enemy({ x: 200, y: 50 , vx: -50}));
+*/
+  // Finally add in the tower goal
+  stage.insert(new Q.Tower({ x: 1130, y: 32*4.5 }, "level5")); 
+}, {level: 5});
 
 // To display a game over / game won popup box,
 // create a endLevel scene that takes in a `label` option
@@ -257,7 +304,7 @@ Q.scene('endLevel',function(stage) {
 // Q.load can be called at any time to load additional assets
 // assets that are already loaded will be skipped
 // The callback will be triggered when everything is loaded
-Q.load("sprites.png, sprites.json, level.json, tiles.png, level1.json, level4.json, tiles.json", function() {
+Q.load("sprites.png, sprites.json, level.json, tiles.png, level1.json, level4.json,level5.json, tiles.json", function() {
   // Sprites sheets can be created manually
   Q.sheet("tiles","tiles.png", { tilew: 32, tileh: 32 });
 
