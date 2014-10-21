@@ -128,7 +128,7 @@ Q.scene("level1",function(stage) {
                              sheet:     'tiles' }));
 
   // Create the player and add them to the stage
-  var player = stage.insert(new Q.Player({x: 47, y: 90}));
+  var player = stage.insert(new Q.Player({x: 55, y: 90}));
 
   // Give the stage a moveable viewport and tell it
   // to follow the player.
@@ -154,7 +154,7 @@ Q.scene("level2",function(stage) {
                              sheet:     'tiles' }));
 
   // Create the player and add them to the stage
-  var player = stage.insert(new Q.Player());
+  var player = stage.insert(new Q.Player({x: 400, y: 400}));
 
   // Give the stage a moveable viewport and tell it
   // to follow the player.
@@ -217,11 +217,16 @@ Q.scene("level4",function(stage) {
 */
   // Finally add in the tower goal
   stage.insert(new Q.Tower({ x: 1130, y: 337 }, "level4")); //TODO level5 when exists.
-  for (var i = 0; i < 4; i++) {
-    stage.insert(new Q.Crack({ x: 16+32*(11 + i), y: 32*6+16}));
+  for (var i = 3; i < 36; i++) {
+    //stage.insert(new Q.Crack({ x: 16+32*(11 + i), y: 32*6+16}));
+    if(i%3 !=0) {
+      stage.insert(new Q.Crack({ x: i*32+16, y: 32*11+16}));
+    }
   };
-  stage.insert(new Q.Enemy({x: 500, y:300, vx: -150}))
-  stage.insert(new Q.Enemy({x: 800, y:300, vx: 100}))
+  //stage.insert(new Q.Enemy({x: 500, y:300, vx: -150}))
+  var enemy  = new Q.Enemy({x: 800, y:300, vx: 100});
+  enemy.bounce = false;
+  stage.insert(enemy);
 });
 
 // To display a game over / game won popup box,
