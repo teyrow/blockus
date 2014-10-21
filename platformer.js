@@ -48,7 +48,7 @@ Q.Sprite.extend("Player",{
       // Check the collision, if it's the Tower, you win!
       if(collision.obj.isA("Tower")) {
         var tower = collision.obj;
-        Q.stageScene("endLevel",1, { label: tower.nextLevel, btnText: "Fortsätt" });
+        Q.stageScene("endLevel",{ label: tower.nextLevel, btnText: "Fortsätt" });
         this.destroy();
       }
     });
@@ -106,7 +106,7 @@ Q.Sprite.extend("Enemy",{
     this.on("bump.left,bump.right,bump.bottom",function(collision) {
       if(collision.obj.isA("Player")) {
         var level = this.stage.options.level;
-        Q.stageScene("endLevel",level, { label: "level" + level, btnText: "Försök igen" });        
+        Q.stageScene("endLevel", { label: "level" + level, btnText: "Försök igen" });        
         collision.obj.destroy();
       }
     });
@@ -290,14 +290,14 @@ Q.scene('endLevel',function(stage) {
                                                    label: stage.options.label }));
   // When the button is clicked, clear all the stages
   // and restart the game.
-  button.on("click",function() {
+  var b = button.on("click",function() {
     Q.clearStages();
     Q.stageScene(stage.options.label);
   });
-
+  console.dir(b);
   // Expand the container to visibily fit it's contents
   // (with a padding of 20 pixels)
-  container.fit(20);
+  container.fit(120);
 });
 
 // ## Asset Loading and Game Launch
