@@ -56,15 +56,13 @@ Q.Sprite.extend("Player",{
     this.on("bump.bottom", this, function(collision) {      
       if(collision.obj.isA("Crack")) {
         collision.obj.destroy();
-
       }
-
-      
+      if(collision.obj.isA("Brick")) {
+        this.p.x = collision.obj.p.x;
+        //collision.obj.destroy();
+      }      
     });
-
-
   }
-
 });
 
 
@@ -193,9 +191,9 @@ Q.scene("level3",function(stage) {
   stage.add("viewport").follow(player);
 
   // Add in a couple of enemies
-  stage.insert(new Q.Enemy({ x: 700, y: 50, vx: 150 }));
-  stage.insert(new Q.Enemy({ x: 800, y: 50 , vx: 150}));
-  stage.insert(new Q.Enemy({ x: 200, y: 50 , vx: -150}));
+  stage.insert(new Q.Enemy({ x: 700, y: 50, vx: 115 }));
+  stage.insert(new Q.Enemy({ x: 800, y: 50 , vx: 115}));
+  stage.insert(new Q.Enemy({ x: 200, y: 50 , vx: -115}));
 
   // Finally add in the tower goal
   stage.insert(new Q.Tower({ x: 180, y: 365 }, "level4"));
@@ -273,7 +271,28 @@ Q.scene("level5",function(stage) {
   stage.insert(new Q.Enemy({ x: 200, y: 50 , vx: -50}));
 */
   // Finally add in the tower goal
-  stage.insert(new Q.Tower({ x: 1130, y: 32*4.5 }, "level5")); 
+  stage.insert(new Q.Tower({ x: 1130, y: 34*4.5 }, "level5")); 
+
+  var container = stage.insert(new Q.UI.Container({
+    x: Q.width/2, y: 0, fill: "rgba(0,0,0,0.5)"
+  }));
+
+  var button = container.insert(new Q.UI.Button({ x: 0, y: 0, fill: "#CCCCCC",
+                                                  label: "Again" }));
+  // var label = container.insert(new Q.UI.Text({x:10, y: -10 - button.p.h,
+  //                                                  label: "LABEL" }));
+  // // When the button is clicked, clear all the stages
+  // and restart the game.
+  var b = button.on("click",function() {
+    Q.clearStages();
+    Q.stageScene("level5");
+  });
+  //console.dir(b);
+  // Expand the container to visibily fit it's contents
+  // (with a padding of 20 pixels)
+  container.fit(20);
+
+
 }, {level: 5});
 
 // To display a game over / game won popup box,
@@ -294,7 +313,7 @@ Q.scene('endLevel',function(stage) {
     Q.clearStages();
     Q.stageScene(stage.options.label);
   });
-  console.dir(b);
+  //console.dir(b);
   // Expand the container to visibily fit it's contents
   // (with a padding of 20 pixels)
   container.fit(120);
@@ -313,7 +332,7 @@ Q.load("sprites.png, sprites.json, level.json, tiles.png, level1.json, level4.js
   Q.compileSheets("tiles.png","tiles.json");
 
   // Finally, call stageScene to run the game
-  Q.stageScene("level1");
+  Q.stageScene("level5");
 });
 
 // ## Possible Experimentations:
