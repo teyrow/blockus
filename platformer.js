@@ -8,7 +8,7 @@
 // a simple, non-animated platformer with some enemies and a
 // target for the player.
 window.addEventListener("load",function() {
-
+var start_level = "level1";
 // Set up an instance of the Quintus engine  and include
 // the Sprites, Scenes, Input and 2D module. The 2D module
 // includes the `TileLayer` class as well as the `2d` componet.
@@ -332,7 +332,7 @@ Q.load("sprites.png, sprites.json, level.json, tiles.png, level1.json, level4.js
   Q.compileSheets("tiles.png","tiles.json");
 
   // Finally, call stageScene to run the game
-  Q.stageScene("level5");
+  Q.stageScene(start_level);
 });
 
 // ## Possible Experimentations:
